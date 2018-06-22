@@ -1,0 +1,22 @@
+apiVersion: kubeadm.k8s.io/v1alpha1
+kind: MasterConfiguration
+kubernetesVersion: v1.9.1
+networking:
+  podSubnet: 10.244.0.0/16
+  serviceSubnet: 10.96.0.0/12
+apiServerCertSANs:
+- host01-1.cloud.com
+- host01-2.cloud.com
+- host01-3.cloud.com
+- 10.10.12.11
+- 10.10.12.12
+- 10.10.12.13
+- 10.10.12.16
+- 127.0.0.1
+etcd:
+  endpoints:
+  - http://10.10.12.11:2379
+  - http://10.10.12.12:2379
+  - http://10.10.12.13:2379
+token: 7f276c.0741d82a5337f526
+tokenTTL: "0"

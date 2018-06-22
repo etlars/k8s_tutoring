@@ -1,0 +1,22 @@
+apiVersion: apps/v1beta2
+kind: ReplicaSet
+metadata:
+  name: test-rs2
+spec:
+  replicas: 3
+  selector:
+    matchExpressions:
+      - key: type
+        operator: In
+        values:
+        - web2
+  template:
+    metadata:
+      labels:
+        type: web2
+    spec:
+      containers:
+      - image: reg.cloud.com/kubia
+        name: kubia
+        ports:
+        - containerPort: 8080

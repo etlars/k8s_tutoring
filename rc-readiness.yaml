@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: kubia-readiness
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        rel: prod
+    spec:
+      containers:
+      - image: reg.cloud.com/kubia
+        name: kubia
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          exec:
+            command:
+            - ls
+            - /var/ready

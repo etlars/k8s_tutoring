@@ -1,0 +1,19 @@
+apiVersion: apps/v1beta2
+kind: ReplicaSet
+metadata:
+  name: test-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      type: web
+  template:
+    metadata:
+      labels:
+        type: web
+    spec:
+      containers:
+      - image: reg.cloud.com/kubia
+        name: kubia
+        ports:
+        - containerPort: 8080

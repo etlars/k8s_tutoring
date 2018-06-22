@@ -1,0 +1,565 @@
+    1  ifconfi
+    2  ifconfig
+    3  ip a
+    4  ls /etc/networks -l
+    5  systemctl status ssh
+    6  systemctl status sshd
+    7  vi /etc/ssh/sshd_config 
+    8  vi /etc/sysconfig/network-scripts/ -l
+    9  ls /etc/sysconfig/network-scripts/ -l
+   10  vi /etc/sysconfig/network-scripts/ifcfg-ens192 
+   11  systemctl restart network
+   12  ip ad
+   13  ip a
+   14  ping google.com
+   15  reboot
+   16  cat /etc/os-release 
+   17  yum update
+   18  cat /etc/os-release 
+   19  id
+   20  version
+   21  shutdown
+   22  vi /etc/hostname 
+   23  vi /etc/sysconfig/network-scripts/ifcfg-ens192 
+   24  systemctl restart network
+   25  ip a
+   26  vi /etc/selinux/config 
+   27  shutdown
+   28  vi /etc/sysconfig/network-scripts/ifcfg-ens192 
+   29  vi /etc/hostname 
+   30  reboot
+   31  yum update
+   32  ip a
+   33  vi /etc/ssh/sshd_config
+   34  reboot
+   35  ifcfg 
+   36  ip a
+   37  wget
+   38  yum install wget net-tools iptables-services bridge-utils bash-completion kexec-tools sos psacct
+   39  yum update
+   40  reboot
+   41  ifconfig 
+   42  uname -r
+   43  rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org 
+   44  rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm 
+   45  yum -y install yum-plugin-fastestmirror 
+   46  yum --enablerepo=elrepo-kernel install kernel-ml 
+   47  reboot
+   48  grub2-set-default 0
+   49  uname -r
+   50  reboot
+   51  ip addr
+   52  shutdown
+   53  passwd
+   54  vi /etc/sysconfig/network-scripts/ifcfg-ens192 
+   55  vi /etc/hostname 
+   56  reboot 
+   57  ls /
+   58  shutdown
+   59  ip a
+   60  ls /
+   61  yum -y update 
+   62  reboot
+   63  ip a
+   64  shutdw
+   65  shutdown 
+   66  rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+   67  rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+   68  yum -y install yum-plugin-fastestmirror
+   69  yum --enablerepo=elrepo-kernel -y install kernel-ml
+   70  grub2-set-default 0
+   71  reboot
+   72  uname -
+   73  uname -r
+   74  ip a
+   75  uname -r
+   76  yum -y update 
+   77  reboot
+   78  ip a
+   79  uname -r
+   80  grub2-set-default 1
+   81  reboo
+   82  treboot
+   83  reboot
+   84  ip 
+   85  ip a
+   86  uname -r
+   87  cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+   88  [kubernetes]
+   89  name=Kubernetes
+   90  baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+   91  enabled=1
+   92  gpgcheck=1
+   93  repo_gpgcheck=1
+   94  gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+   95  EOF
+   96  yum update -y
+   97  systemctl disable firewalld && systemctl stop firewalld
+   98  yum install -y wget bash-completion
+   99  mkdir /k8s
+  100  wget -P /k8s https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-17.12.0.ce-1.el7.centos.x86_64.rpm 
+  101  yum install -y /k8s/docker-ce-17.12.0.ce-1.el7.centos.x86_64.rpm 
+  102  systemctl enable docker && systemctl start docker
+  103  touch /etc/docker/daemon.json
+  104  cat <<EOF > /etc/docker/daemon.json
+  105  {
+  106  "insecure-registries":["10.10.12.0/24"]
+  107  }
+  108  EOF
+  109  systemctl restart docker
+  110  curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+  111  chmod +x /usr/local/bin/docker-compose
+  112  yum install -y epel-release
+  113  yum install -y python-pip
+  114  pip install  docker-compose
+  115  docker pull gcr.io/google_containers/kube-apiserver-amd64:v1.9.1
+  116  docker pull gcr.io/google_containers/kube-proxy-amd64:v1.9.1
+  117  docker pull gcr.io/google_containers/kube-scheduler-amd64:v1.9.1
+  118  docker pull gcr.io/google_containers/kube-controller-manager-amd64:v1.9.1
+  119  docker pull gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.7
+  120  docker pull gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.7
+  121  docker pull gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.7
+  122  docker pull gcr.io/google_containers/etcd-amd64:3.1.10
+  123  docker pull gcr.io/google_containers/pause-amd64:3.0
+  124  # kubernetes dashboard
+  125  docker pull gcr.io/google_containers/kubernetes-dashboard-amd64:v1.8.3
+  126  # kubernetes heapster
+  127  docker pull gcr.io/google_containers/heapster-influxdb-amd64:v1.3.3
+  128  docker pull gcr.io/google_containers/heapster-grafana-amd64:v4.4.3
+  129  docker pull gcr.io/google_containers/heapster-amd64:v1.4.2
+  130  # kubernetes apiserver load balancer
+  131  docker pull nginx:latest
+  132  # kubernetes networks add ons
+  133  docker pull quay.io/coreos/flannel:v0.9.1-amd64
+  134  docker pull quay.io/calico/node:v3.0.3
+  135  docker pull quay.io/calico/kube-controllers:v2.0.1
+  136  docker pull quay.io/calico/cni:v2.0.1
+  137  cat /etc/os-release 
+  138  uname  -r
+  139  docker version 
+  140  docker-compose 
+  141  docker-compose version
+  142  docker images
+  143  docker version 
+  144  systemctl status firewalld.service 
+  145  cat /etc/yum.repos.d/kubernetes.repo 
+  146  sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux
+  147  setenforce 0
+  148  cat <<EOF >  /etc/sysctl.d/k8s.conf
+  149  net.bridge.bridge-nf-call-ip6tables = 1
+  150  net.bridge.bridge-nf-call-iptables = 1
+  151  net.ipv4.ip_forward = 1
+  152  EOF
+  153  sysctl --system
+  154  swapoff -a && sed -i '/swap/s/^/#/' /etc/fstab
+  155  reboot
+  156  vi /etc/sysconfig/selinux
+  157  vi /etc/sysctl.d/k8s.conf
+  158  vi /etc/fstab
+  159  swapoff -a && sed -i '/swap/s/^/#/' /etc/fstab
+  160  sysctl --system
+  161  reboot
+  162  yum install -y kubelet-1.9.3-0.x86_64 kubeadm-1.9.3-0.x86_64 kubectl-1.9.3-0.x86_64 git
+  163  systemctl enable kubelet && systemctl start kubelet
+  164  sed -i 's/systemd/cgroupfs/g' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+  165  systemctl daemon-reload && systemctl restart kubelet
+  166  kubeadm version
+  167  kubectl version
+  168  systemctl status kubeler
+  169  systemctl status kubelet
+  170  yum install -y keepalived
+  171  systemctl enable keepalived && systemctl restart keepalived
+  172  cd /kubeadm-ha/
+  173  ls  -l
+  174  vi create-config.sh 
+  175  scp create-config.sh 10.10.12.242:/kubeadm-ha/
+  176  scp create-config.sh 10.10.12.243:/kubeadm-ha/
+  177  ls -l
+  178  chmod +x create-config.sh 
+  179  ls -l
+  180  ./create-config.sh 
+  181  docker-compose --file etcd/docker-compose.yaml up -d
+  182  docker exec -ti etcd etcdctl cluster-health
+  183  kubeadm init --config=kubeadm-init.yaml
+  184  scp -r /etc/kubernetes/pki host24-2.cloud.com:/etc/kubernetes/
+  185  scp -r /etc/kubernetes/pki host24-3.cloud.com:/etc/kubernetes/
+  186  echo "export KUBECONFIG=/etc/kubernetes/admin.conf" >> ~/.bashrc
+  187  source ~/.bashrc
+  188  kubectl apply -f kube-canal/
+  189  watch kubectl get pods --all-namespaces
+  190  kubectl taint nodes --all node-role.kubernetes.io/master-
+  191  kubectl apply -f kube-dashboard/
+  192  kubectl get pods --all-namespaces
+  193  kubectl apply -f kube-heapster/influxdb/
+  194  kubectl apply -f kube-heapster/rbac/
+  195  kubectl get pods --all-namespaces
+  196  systemctl restart keepalived
+  197  docker-compose -f nginx-lb/docker-compose.yaml up -d
+  198  curl -k https://10.10.12.246:16443
+  199  kubectl edit -n kube-system configmap/kube-proxy
+  200  kubectl get pods --all-namespaces -o wide | grep proxy
+  201  kubectl delete pod -n kube-system kube-proxy-62zwl kube-proxy-s7zd7 kube-proxy-xv8tc
+  202  kubectl get nodes
+  203  alias k=kubectl
+  204  echo "alias k=kubectl" >> ~/.bashrc 
+  205  source <(kubectl completion bash | sed s/kubectl/k/g)
+  206  echo "source <(kubectl completion bash | sed s/kubectl/k/g)" >> ~/.bashrc 
+  207  cat ~/.bashrc 
+  208  vi /etc/kubernetes/admin.conf 
+  209  k get no
+  210  k get nodes
+  211  k get node
+  212  k get no
+  213  systemctl status kubelet
+  214  k get po
+  215  k get ns
+  216  k get po -n kube-system 
+  217  docker ps
+  218  ls -l
+  219  k --help
+  220  cd 
+  221  k run kubia --image=reg.cloud.com/kubia --port=8080 --generator=run/v1
+  222  k get rc
+  223  k get po
+  224  k get po -o wide
+  225  k describe po kubia-w5vfj
+  226  k get po -o wide
+  227  k exec -it kubia-w5vfj sh
+  228  k logs kubia-w5vfj
+  229  k get rc
+  230  k get po
+  231  k get ns
+  232  k get ns -n default
+  233  k get po -n default
+  234  k get po
+  235  k get po -o json
+  236  k get po -o yaml
+  237  k get rc
+  238  k get po -o wide
+  239  k delete po kubia-w5vfj
+  240  k get po -o wide
+  241  mkdir /test
+  242  cd /test/
+  243  vi multi.yaml
+  244  k create -f multi.yaml 
+  245  k get po -o wide
+  246  k get po -o wide --watch
+  247  k get po -o wide
+  248  cat multi.yaml 
+  249  k get po -o wide
+  250  k exec -it multi -c wordpres bash
+  251  k exec -it multi -c wordpres sh
+  252  k exec -it multi -c wordpress bash
+  253  k exec -it multi -c db bash
+  254  k get po -o wide
+  255  k get po
+  256  k get po kubia-z2dvr -o yaml > simple.yaml
+  257  vi simple.yaml 
+  258  k create -f simple.yaml 
+  259  k get po -o wid
+  260  k get po -o wide
+  261  ls
+  262  k get po -o wide
+  263  curl 10.244.3.5:8080
+  264  k logs simple
+  265  k logs multi
+  266  k logs multi -c db
+  267  k logs multi -c wordpress
+  268  k get po 
+  269  k get po --show-labels 
+  270  k get no --show-labels 
+  271   k delete -f simple.yaml 
+  272  k get po
+  273  vi simple.yaml 
+  274  k create -f simple.yaml 
+  275  k get po -o wide
+  276  k describe po simple
+  277  k get po -o wide
+  278  k get no
+  279  k label no host24-3.cloud.com gpu=true
+  280  k get no --show-labels 
+  281  k get po -o wide
+  282  k get po -o wide --watch
+  283  k get po -o wide
+  284  k get po --show-labels 
+  285  k get po -L run,app
+  286  k label po simple app=web
+  287  k get po -L run,app
+  288  k label po simple app=was
+  289  k label po simple app=was --overwrite
+  290  k get po -L run,app
+  291  k edit po simple
+  292  k get po -L run,app
+  293  k get po -l run=kubia
+  294  k get po -l run=test
+  295  k get po -l run
+  296  k describe po simple
+  297  k get po 
+  298  k get rs
+  299  k get rc
+  300  k delete rc kubia
+  301  k get po 
+  302  k delete all --all
+  303  ls -l
+  304  cp simple.yaml simple-probe.yaml
+  305  vi simple-probe.yaml 
+  306  k create -f simple-probe.yaml 
+  307  k get po -o wide
+  308  k get po -o wide --watch
+  309  k get po -o wide 
+  310  k describe po test-liveness
+  311  k get po -o wide 
+  312  k describe po test-liveness
+  313  k get po -o wide 
+  314  k get po -n kube-system 
+  315  k describe po kube-apiserver-host24-1.cloud.com -n kube-system 
+  316  k get po -o wide 
+  317  k delete po test-liveness
+  318  k run kubia --image=reg.cloud.com/kubia --port=8080 --generator=run/v1
+  319  k get rc
+  320  k get po
+  321  k get rc kubia -o yaml > rc.yaml
+  322  vi rc.yaml 
+  323  k create -f rc.yaml
+  324  k get rc
+  325  k get po -o wide
+  326  k get po -o wide --watch
+  327  k get po -o wide
+  328  k get rc
+  329  k describe rc kubia-rc
+  330  k get rc
+  331  k get po --show-labels 
+  332  k label po kubia-rc-zzgb5 app=foo
+  333  k get po --show-labels 
+  334  k label po kubia-rc-zzgb5 type=was --overwrite
+  335  k get po --show-labels 
+  336  k describe po kubia-rc-fznkl
+  337  k get po --show-labels 
+  338  k describe po kubia-rc-zzgb5
+  339  k get po --show-labels 
+  340  k label po kubia-rc-zzgb5 type=web --overwrite
+  341  k get po --show-labels 
+  342  k get rc
+  343  k scale rc kubia-rc --replicas=4
+  344  k get po --show-labels 
+  345  k get po --show-labels --o wide
+  346  k get po --show-labels -o wide
+  347  k scale rc kubia-rc --replicas=1
+  348  k get po --show-labels -o wide
+  349  k edit rc  kubia-rc
+  350  k get po --show-labels -o wide
+  351  k get rc
+  352  k get po
+  353  k delete rc kubia
+  354  k get po
+  355  k delete rc kubia-rc --cascade=false
+  356  k get po
+  357  ls 
+  358  cp rc.yaml rs.yaml
+  359  vi rs.yaml 
+  360  k get po
+  361  k get po --show-labels 
+  362  k create -f rs.yaml 
+  363  k get rs
+  364  k get po
+  365  cp rs.yaml rs2.yaml
+  366  vi rs2.yaml 
+  367  k create -f rs2.yaml 
+  368  k get rs
+  369  k get po -o wide
+  370  k get po -o wide --show-labels 
+  371  ls -l
+  372  k get po -n kube-system 
+  373  ls 
+  374  cp rs.yaml ds.yaml
+  375  vi ds.yaml 
+  376  k create -f ds.yaml 
+  377  k get ds
+  378  k get no
+  379  k label no host24-4.cloud.com disk=ssd
+  380  k get ds
+  381  k get po -o wide
+  382  k label no host24-3.cloud.com disk=ssd
+  383  k get ds
+  384  k get po -o wide
+  385  k get no
+  386  k label no host24-4.cloud.com disk=hdd --overwrite
+  387  k get ds
+  388  k get po -o wide
+  389  ls -l
+  390  cp rc.yaml job.yaml
+  391  vi job.yaml 
+  392  k create -f job.yaml 
+  393  k get po -o wide
+  394  vi job.yaml 
+  395  k get job
+  396  k get po -o wide
+  397  k get po -o wide --watch
+  398  vi job.yaml 
+  399  k get po -o wide --watch
+  400  k get po -o wide 
+  401  k get po -o wide -a
+  402  k get job
+  403  vi job.yaml 
+  404  k create -f job.yaml 
+  405  vi job.yaml 
+  406  k create -f job.yaml 
+  407  k get job
+  408  k get po -o wide
+  409  k scale job multi-test-job --replicas=2
+  410  k get job
+  411  k get po -o wide
+  412  k get job
+  413  k get po -o wide --watch
+  414  k get job
+  415  k get po -o wide --watch
+  416  k delete all --all
+  417  k cluster-info 
+  418  k get svc
+  419  k get po -n kube-system 
+  420  k get po -n kube-system -o widd
+  421  k get po -n kube-system -o wide
+  422  k get service -n kube-system 
+  423  k get po
+  424  ls 
+  425  k create -f rc.yaml
+  426  k get rc
+  427  k get po -o wide
+  428  k exec -it kubia-rc-xcrlz bash
+  429  k get svc
+  430  k get rc
+  431  k get po -o wide
+  432  curl 10.244.1.8:8080
+  433  k describe rc kubia-rc
+  434  k get svc
+  435  k get svc kubernetes -o yaml > svc.yaml
+  436  vi svc.yaml 
+  437  k create -f svc.yaml 
+  438  k get svc
+  439  k get po -o wide
+  440  k get svc
+  441  k get rc
+  442  k get po -o wide
+  443  k describe svc kubia-svc
+  444  k get svc
+  445  k get po -o wide
+  446  curl 10.244.3.17:8080
+  447  curl 10.96.25.14
+  448  k exec -it kubia-rc-bg69h bash
+  449  k get svc
+  450  k edit svc kubia-svc
+  451  k get po -o wide
+  452  k get svc
+  453  curl 10.96.25.14
+  454  k get po -o wide
+  455  k exec kubia-rc-xcrlz env
+  456  k get svc
+  457  k get po
+  458  k delete po kubia-rc-bg69h kubia-rc-dzwlq kubia-rc-xcrlz
+  459  k get po
+  460  k get po -o wide
+  461  k get svc
+  462  k exec kubia-rc-4x2zw env
+  463  k get svc
+  464  cp svc.yaml svc-np.yaml
+  465  vi svc-np.yaml 
+  466  k create -f svc-np.yaml 
+  467  k get svc 
+  468  k get po -o wide
+  469  curl 10.111.48.189
+  470  k edit svc kubia-np
+  471  k get svc 
+  472  ip route
+  473  vi svc-np.yaml 
+  474  k get scv
+  475  k get svc
+  476  k get po
+  477  k describe svc kubia-svc
+  478  k get svc
+  479  k get ep
+  480  k delete svc kubia-np kubia-svc
+  481  k get svc
+  482  k get ep
+  483  ls -l
+  484  cp svc.yaml svc-ep.yaml
+  485  vi svc-ep.yaml 
+  486  k create -f svc-ep.yaml 
+  487  k get svc
+  488  k get ep
+  489  k describe svc kubia-svc
+  490  cp svc-ep.yaml ep.yaml
+  491  vi ep.yaml 
+  492  k create -f ep.yaml 
+  493  k get svc
+  494  k get e
+  495  k get ep
+  496  k get svc
+  497  k describe svc kubia-svc
+  498  ls -l
+  499  cd ing-controller/
+  500  ls -l
+  501  vi namespace.yaml 
+  502  k create -f namespace.yaml 
+  503  k get ns
+  504  vi default-backend.yaml 
+  505  k create -f default-backend.yaml 
+  506  vi default-backend.yaml 
+  507  k get po -n ingress-nginx 
+  508  k get svc -n ingress-nginx 
+  509  ls -l
+  510  k create -f configmap.yaml 
+  511  k create -f tcp-services-configmap.yaml 
+  512  k create -f udp-services-configmap.yaml 
+  513  vi rbac.yaml 
+  514  k create rbac.yaml 
+  515  k create -f rbac.yaml 
+  516  vi nginx-ingress-controller.yaml 
+  517  ls
+  518  k create -f nginx-ingress-controller.yaml 
+  519  k create -f service-nodeport.yaml 
+  520  k get po -n ingress-nginx 
+  521  k get svc -n ingress-nginx 
+  522  k get cm -n ingress-nginx 
+  523  k get po -n ingress-nginx --watch
+  524  k get po -n ingress-nginx
+  525  k get svc -n ingress-nginx 
+  526  k exec -it nginx-ingress-controller-5c6698dfbf-gw677 bash
+  527  k exec -it nginx-ingress-controller-5c6698dfbf-gw677 sh
+  528  k exec -it nginx-ingress-controller-5c6698dfbf-gw677 -n ingress-nginx bash
+  529  ls
+  530  vi nginx-ingress-controller.yaml 
+  531  ls -l
+  532  cd ../
+  533  ls -kl
+  534  ls -ls
+  535  k create -f rc.yaml -n ingress-nginx 
+  536  k create -f svc.yaml -n ingress-nginx 
+  537  k get svc -n ingress-nginx 
+  538  k get rc -n ingress-nginx 
+  539  curl 10.96.85.68
+  540  ls 
+  541  cp rc.yaml rc3.yaml
+  542  vi rc3.yaml 
+  543  k create -f rc3.yaml -n ingress-nginx 
+  544  k get rc -n ingress-nginx 
+  545  k get po -o wide -n ingress-nginx 
+  546  ls 
+  547  cp svc.yaml svc3.yaml
+  548  vi svc3.yaml 
+  549  k create -f svc3.yaml -n ingress-nginx 
+  550  k get svc -n ingress-nginx 
+  551  k get po -n ingress-nginx 
+  552  k get po -n -o wideingress-nginx 
+  553  k get po -o wide -n ingress-nginx 
+  554  curl 10.102.49.222
+  555  curl 10.96.85.68
+  556  ls -l;
+  557  cp svc.yaml ing.yaml
+  558  vi ing.yaml 
+  559  k create -f ing.yaml 
+  560  k get ing -n ingress-nginx 
+  561  k describe ing ing-svc -n ingress-nginx 
+  562  ls -l
+  563  cat ~/.bash_history 
+  564  history 
+  565  history > job-history
