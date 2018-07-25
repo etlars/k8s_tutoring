@@ -4,7 +4,7 @@ metadata:
   name: simple3
 spec:
   containers:
-  - image: reg.cloud.com/kubia
+  - image: reg.cloud.com/kubia:v1
     name: kubia
     ports:
     - containerPort: 8080
